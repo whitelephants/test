@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4zFi6GTqPDVOXv0x8yma9lIoQunrV4rs"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+		<style type="text/css">
+			html{height:100%}
+			body{height:100%;margin:0px;padding:0px;font-family:"微软雅黑";}
+			#container{height:500px;width:100%;}
+			#r-result{width:100%;}
+    </style>
+    <title>Dashboard</title>
+		<script src="https://cdn.bootcss.com/echarts/4.2.0-rc.1/echarts.min.js"></script>
+		<script src="//at.alicdn.com/t/font_885063_hp6izb4xdp.js"></script>
+		<style type="text/css">
+			.icon {
+			   width: 1em; height: 1em;
+			   vertical-align: -0.15em;
+			   fill: currentColor;
+			   overflow: hidden;
+			}
+		</style>
+    <style>
+      #loader {
+        transition: all 0.3s ease-in-out;
+        opacity: 1;
+        visibility: visible;
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        background: #fff;
+        z-index: 90000;
+      }
+
+      #loader.fadeOut {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+        background-color: #333;
+        border-radius: 100%;
+        -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+        animation: sk-scaleout 1.0s infinite ease-in-out;
+      }
+
+      @-webkit-keyframes sk-scaleout {
+        0% { -webkit-transform: scale(0) }
+        100% {
+          -webkit-transform: scale(1.0);
+          opacity: 0;
+        }
+      }
+
+      @keyframes sk-scaleout {
+        0% {
+          -webkit-transform: scale(0);
+          transform: scale(0);
+        } 100% {
+          -webkit-transform: scale(1.0);
+          transform: scale(1.0);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="app">
+    <!-- @TOC -->
+    <!-- =================================================== -->
+    <!--
+      + @Page Loader
+      + @App Content
+          - #Left Sidebar
+              > $Sidebar Header
+              > $Sidebar Menu
+
+          - #Main
+              > $Topbar
+              > $App Screen Content
+    -->
+
+    <!-- @Page Loader -->
+    <!-- =================================================== -->
+    <div id='loader'>
+      <div class="spinner"></div>
+    </div>
+
+    <script>
+      window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        setTimeout(() => {
+          loader.classList.add('fadeOut');
+        }, 300);
+      });
+    </script>
+
+    <!-- @App Content -->
+    <!-- =================================================== -->
+    <div>
+      <!-- #Left Sidebar ==================== -->
+      <div class="sidebar">
+        <div class="sidebar-inner">
+          <!-- ### $Sidebar Header ### -->
+          <div class="sidebar-logo">
+            <div class="peers ai-c fxw-nw">
+              <div class="peer peer-greed">
+              	<a class="sidebar-link td-n" href="index.html">
+              		<div class="peers ai-c fxw-nw">
+              			<div class="peer">
+              				<div class="logo" style="text-align:center;padding-top: 15px;">
+              					<svg class="icon" aria-hidden="true" style="font-size:40px;">
+													<use xlink:href="#icon-yidong"></use>
+												</svg>
+              				</div>
+              			</div>
+              			<div class="peer peer-greed" >
+              				<h5 class="lh-1 mB-0 logo-text">&nbsp;&nbsp;CMCC</h5>
+              			</div>
+              		</div>
+              	</a>
+              </div>
+              <div class="peer">
+                <div class="mobile-toggle sidebar-toggle">
+                  <a href="" class="td-n">
+                    <i class="ti-arrow-circle-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ### $Sidebar Menu ### -->
+          <ul class="sidebar-menu scrollable pos-r">
+          						<li class="nav-item mT-30 active">
+          							<a class="sidebar-link" href="index.html">
+          								<span class="icon-holder">
+          									<svg class="icon" aria-hidden="true" style="font-size:20px;">
+          										<use xlink:href="#icon-gongneng_chengweirenzhengqiye"></use>
+          									</svg>
+          								</span>
+          								<span class="title">高负荷小区分析预测平台</span>
+          							</a>
+          						</li>
+          						<li class="nav-item dropdown">
+          							<a class="dropdown-toggle" href="javascript:void(0);">
+          								<span class="icon-holder">
+          									<svg class="icon" aria-hidden="true" style="font-size:20px;">
+          										<use xlink:href="#icon-tubiao1-copy"></use>
+          									</svg>
+          								</span>
+          								<span class="title">高负荷小区指标统计</span>
+          								<span class="arrow">
+          									<i class="ti-angle-right"></i>
+          								</span>
+          							</a>
+          							<ul class="dropdown-menu">
+          								<li>
+          									<a class='sidebar-link' href="1-chart-bar.html">本月数据</a>
+          								</li>
+          								<li>
+          									<a class='sidebar-link' href="2-chart-bar.html">预测数据</a>
+          								</li>                
+          							</ul>
+          						</li>       
+          						<li class="nav-item dropdown">
+          							<a class="dropdown-toggle" href="javascript:void(0);">
+          								<span class="icon-holder">
+          									<svg class="icon" aria-hidden="true" style="font-size:20px;">
+          										<use xlink:href="#icon-biaoge"></use>
+          									</svg>
+          								</span>
+          								<span class="title">高负荷小区配置表</span>
+          								<span class="arrow">
+          									<i class="ti-angle-right"></i>
+          								</span>
+          							</a>
+          							<ul class="dropdown-menu">
+          								<li>
+          									<a class='sidebar-link' href="1-table.html">本月数据</a>
+          								</li>
+          								<li>
+          									<a class='sidebar-link' href="2-table.html">预测数据</a>
+          								</li>
+          							</ul>
+          						</li>
+          						<li class="nav-item dropdown">
+          							<a class="dropdown-toggle" href="javascript:void(0);">
+          								<span class="icon-holder">
+          									<svg class="icon" aria-hidden="true" style="font-size:20px;">
+          										<use xlink:href="#icon-gongneng_chanyeziyuan"></use>
+          									</svg>
+          								</span>
+          								<span class="title">高负荷小区数据信息</span>
+          								<span class="arrow">
+          									<i class="ti-angle-right"></i>
+          								</span>
+          							</a>
+          							<ul class="dropdown-menu">
+          								<li>
+          									<a class='sidebar-link' href="3-table.html">本月数据</a>
+          								</li>
+          								<li>
+          									<a class='sidebar-link' href="4-table.html">预测数据</a>
+          								</li>
+          							</ul>
+          						</li>
+          						<li class="nav-item dropdown">
+          							<a class="dropdown-toggle" href="javascript:void(0);">
+          								<span class="icon-holder">
+          									<svg class="icon" aria-hidden="true" style="font-size:20px;">
+          										<use xlink:href="#icon-ditu1"></use>
+          									</svg>
+          								</span>
+          								<span class="title">高负荷小区热力图</span>
+          								<span class="arrow">
+          									<i class="ti-angle-right"></i>
+          								</span>
+          							</a>
+          							<ul class="dropdown-menu">
+          								<li>
+          									<a class='sidebar-link' href="1-map.html">本月数据</a>
+          								</li>
+          								<li>
+          									<a class='sidebar-link' href="2-map.html">预测数据</a>
+          								</li>
+          							</ul>
+          						</li>
+          
+          					</ul>
+          				</div>
+          			</div>
+
+      <!-- #Main ============================ -->
+      <div class="page-container">
+        <!-- ### $Topbar ### -->
+        <div class="header navbar">
+          <div class="header-container">
+            <ul class="nav-left">
+              <li>
+                <a id='sidebar-toggle' class="sidebar-toggle" href="javascript:void(0);">
+                  <i class="ti-menu"></i>
+                </a>
+              </li>             
+              <li class="search-input">
+                <input class="form-control" type="text" placeholder="Search...">
+              </li>
+            </ul>
+            <ul class="nav-right">
+              <li class="dropdown">
+                <a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">
+                  <div class="peer mR-10">
+                    <img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt="">
+                  </div>
+                  <div class="peer">
+                    <span class="fsz-sm c-grey-900">John Doe</span>
+                  </div>
+                </a>
+                <ul class="dropdown-menu fsz-sm">
+                  <li>
+                    <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-settings mR-10"></i>
+                      <span>Setting</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-user mR-10"></i>
+                      <span>Profile</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="email.html" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-email mR-10"></i>
+                      <span>Messages</span>
+                    </a>
+                  </li>
+                  <li role="separator" class="divider"></li>
+                  <li>
+                    <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-power-off mR-10"></i>
+                      <span>Logout</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ### $App Screen Content ### -->
+        <main class='main-content bgc-grey-100'>
+                  <div id='mainContent'>
+                    <div class="container-fluid">
+                    	<h4 class="c-grey-900 mT-10 mB-30"></h4>
+                    	<div class="row">
+                    		<div class="col-md-12">
+                    			<div class="bgc-white bd bdrs-3 p-20 mB-20">
+                    				<h4 class="c-grey-900 mB-20">高负荷小区配置表</h4>
+                    				<table id="dataTable" class="table table-responsive table-striped table-bordered" cellspacing="0" width="100%">
+                    						<thead>
+                    							<tr>
+                    								<th>id</th>
+                    								<th>date</th>
+                    								<th>cgi</th>
+                    								<th>cellname</th>
+                    								<th>eutrtype</th>
+                    								<th>covertype</th>
+                    								<th>maintenancesubdept</th>
+                    								<th>dependency</th>
+                    								<th>scenename</th>
+                    								<th>celltype</th>
+                    							</tr>
+                    						</thead>
+                    						<tfoot>
+                    							<tr>
+                    								<th>id</th>
+                    								<th>date</th>
+                    								<th>cgi</th>
+                    								<th>cellname</th>
+                    								<th>eutrtype</th>
+                    								<th>covertype</th>
+                    								<th>maintenancesubdept</th>
+                    								<th>dependency</th>
+                    								<th>scenename</th>
+                    								<th>celltype</th>
+                    							</tr>
+                    						</tfoot>
+                    						<tbody>
+                    							<tr>
+                    								<td>28919</td>
+                    								<td>2018年9月</td>
+                    								<td>460-00-55877-80</td>
+                    								<td>QingHeMuNG01H(SBTS)-80</td>
+                    								<td>FDD</td>
+                    								<td>室外</td>
+                    								<td>null</td>
+                    								<td>null</td>
+                    								<td>其他</td>
+        														<td>MEDIUM</td>
+                    							</tr>
+        													<tr>
+        														<td>28920</td>	
+        														<td>2018/9/1</td>	
+        														<td>460-00-56484-80</td>	
+        														<td>JiangQiaoJuFangNG02H(SBTS)-80</td>	
+        														<td>FDD</td>	
+        														<td>室外</td>	
+        														<td>null</td>	
+        														<td>null</td>	
+        														<td>其他</td>	
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28922</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-55869-81</td>
+        														<td>QingDeBangNG01(SBTS)-81</td>
+        														<td>FDD</td>
+        														<td>室外</td>
+        														<td>null</td>
+        														<td>null</td>
+        														<td>其他</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28923</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-55825-80</td>
+        														<td>DongJiaoNG02H(SBTS)-80</td>
+        														<td>FDD</td>
+        														<td>室外</td>
+        														<td>null</td>
+        														<td>null</td>
+        														<td>其他</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28924</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-110160-16</td>
+        														<td>M2中山公园HL1W_16</td>
+        														<td>FDD</td>
+        														<td>室内</td>
+        														<td>维护优化南部</td>
+        														<td>西区分公司</td>
+        														<td>地铁</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28925</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-55952-81</td>
+        														<td>XinMaiZhiNG2(SBTS)-81</td>
+        														<td>FDD</td>
+        														<td>室外</td>
+        														<td>null</td>
+        														<td>null</td>
+        														<td>其他</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28926</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-110120-16</td>
+        														<td>黄河路地铁站HL1W_16</td>
+        														<td>FDD</td>
+        														<td>室内</td>
+        														<td>维护优化南部</td>
+        														<td>南区分公司</td>
+        														<td>地铁</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28927</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-949842-144</td>
+        														<td>M1中山北路站HL3W_144</td>
+        														<td>FDD</td>
+        														<td>室内</td>
+        														<td>维护优化南部</td>
+        														<td>北区分公司</td>
+        														<td>地铁</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28928</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-56423-82</td>
+        														<td>JiaJinTongNG01H(SBTS)-82</td>
+        														<td>FDD</td>
+        														<td>室外</td>
+        														<td>null</td>
+        														<td>null</td>
+        														<td>其他</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28929</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-110148-16</td>
+        														<td>M2陆家嘴HL1W_16</td>
+        														<td>FDD</td>
+        														<td>室内</td>
+        														<td>维护优化南部</td>
+        														<td>浦东分公司</td>
+        														<td>地铁</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28930</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-110156-16</td>
+        														<td>M2静安寺HL1W_16</td>
+        														<td>FDD</td>
+        														<td>室内</td>
+        														<td>维护优化南部</td>
+        														<td>西区分公司</td>
+        														<td>地铁</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28931</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-55923-80</td>
+        														<td>QingYiBeiNG01H(SBTS)-80</td>
+        														<td>FDD</td>
+        														<td>室外</td>
+        														<td>null</td>
+        														<td>null</td>
+        														<td>其他</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28932</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-110154-16</td>
+        														<td>M2南京西路HL1W_16</td>
+        														<td>FDD</td>
+        														<td>室内</td>
+        														<td>维护优化南部</td>
+        														<td>西区分公司</td>
+        														<td>地铁</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28933</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-110122-16</td>
+        														<td>M1汉中路HL1W_16</td>
+        														<td>FDD</td>
+        														<td>室内</td>
+        														<td>维护优化南部</td>
+        														<td>北区分公司</td>
+        														<td>地铁</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28934</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-56499-80</td>
+        														<td>LianXiNG02H(SBTS)-80</td>
+        														<td>FDD</td>
+        														<td>室外</td>
+        														<td>null</td>
+        														<td>null</td>
+        														<td>其他</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28935</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-56425-80</td>
+        														<td>JiaJingYuNG02H(SBTS)-80</td>
+        														<td>FDD</td>
+        														<td>室外</td>
+        														<td>null</td>
+        														<td>null</td>
+        														<td>其他</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28936</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-110164-16</td>
+        														<td>M2威宁路站HL1W_16</td>
+        														<td>FDD</td>
+        														<td>室内</td>
+        														<td>维护优化南部</td>
+        														<td>西区分公司</td>
+        														<td>地铁</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28937</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-56546-82</td>
+        														<td>XinErShouCheNG02H(SBTS)-82</td>
+        														<td>FDD</td>
+        														<td>室外</td>
+        														<td>null</td>
+        														<td>null</td>
+        														<td>其他</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28938</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-55834-81</td>
+        														<td>HuaXinNG03H(SBTS)-81</td>
+        														<td>FDD</td>
+        														<td>室外</td>
+        														<td>null</td>
+        														<td>null</td>
+        														<td>其他</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28939</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-56370-81</td>
+        														<td>HuangDuNG02H(SBTS)-81</td>
+        														<td>FDD</td>
+        														<td>室外</td>
+        														<td>null</td>
+        														<td>null</td>
+        														<td>其他</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28941</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-949827-135</td>
+        														<td>M3宝山路轻轨站HL1W_135</td>
+        														<td>TDD</td>
+        														<td>室内</td>
+        														<td>维护优化南部</td>
+        														<td>北区分公司</td>
+        														<td>地铁</td>
+        														<td>MEDIUM</td>
+        													</tr>
+        													<tr>
+        														<td>28942</td>
+        														<td>2018/9/1</td>
+        														<td>460-00-111547-7</td>
+        														<td>新银城HL1H_7</td>
+        														<td>TDD</td>
+        														<td>室外</td>
+        														<td>维护优化东部</td>
+        														<td>浦东分公司</td>
+        														<td>写字楼</td>
+        														<td>SMALL</td>
+        													</tr>
+        
+        
+        																																					
+                    						</tbody>
+                    					</table>
+                    			</div>
+                    		</div>
+                    	</div>
+                    </div>
+                  </div>
+                </main>
+
+        <!-- ### $App Screen Footer ### -->
+        <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
+          <span>上海移动优化中心设备部</span>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

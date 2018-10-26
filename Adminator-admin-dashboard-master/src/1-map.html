@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4zFi6GTqPDVOXv0x8yma9lIoQunrV4rs"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+		<style type="text/css">
+			html{height:100%}
+			body{height:100%;margin:0px;padding:0px;font-family:"微软雅黑";}
+			#container{height:500px;width:100%;}
+			#r-result{width:100%;}
+    </style>
+    <title>Dashboard</title>
+		<script src="https://cdn.bootcss.com/echarts/4.2.0-rc.1/echarts.min.js"></script>
+		<script src="//at.alicdn.com/t/font_885063_hp6izb4xdp.js"></script>
+		<style type="text/css">
+			.icon {
+			   width: 1em; height: 1em;
+			   vertical-align: -0.15em;
+			   fill: currentColor;
+			   overflow: hidden;
+			}
+		</style>
+    <style>
+      #loader {
+        transition: all 0.3s ease-in-out;
+        opacity: 1;
+        visibility: visible;
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        background: #fff;
+        z-index: 90000;
+      }
+
+      #loader.fadeOut {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+        background-color: #333;
+        border-radius: 100%;
+        -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+        animation: sk-scaleout 1.0s infinite ease-in-out;
+      }
+
+      @-webkit-keyframes sk-scaleout {
+        0% { -webkit-transform: scale(0) }
+        100% {
+          -webkit-transform: scale(1.0);
+          opacity: 0;
+        }
+      }
+
+      @keyframes sk-scaleout {
+        0% {
+          -webkit-transform: scale(0);
+          transform: scale(0);
+        } 100% {
+          -webkit-transform: scale(1.0);
+          transform: scale(1.0);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="app">
+    <!-- @TOC -->
+    <!-- =================================================== -->
+    <!--
+      + @Page Loader
+      + @App Content
+          - #Left Sidebar
+              > $Sidebar Header
+              > $Sidebar Menu
+
+          - #Main
+              > $Topbar
+              > $App Screen Content
+    -->
+
+    <!-- @Page Loader -->
+    <!-- =================================================== -->
+    <div id='loader'>
+      <div class="spinner"></div>
+    </div>
+
+    <script>
+      window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        setTimeout(() => {
+          loader.classList.add('fadeOut');
+        }, 300);
+      });
+    </script>
+
+    <!-- @App Content -->
+    <!-- =================================================== -->
+    <div>
+      <!-- #Left Sidebar ==================== -->
+      <div class="sidebar">
+        <div class="sidebar-inner">
+          <!-- ### $Sidebar Header ### -->
+          <div class="sidebar-logo">
+            <div class="peers ai-c fxw-nw">
+              <div class="peer peer-greed">
+              	<a class="sidebar-link td-n" href="index.html">
+              		<div class="peers ai-c fxw-nw">
+              			<div class="peer">
+              				<div class="logo" style="text-align:center;padding-top: 15px;">
+              					<svg class="icon" aria-hidden="true" style="font-size:40px;">
+													<use xlink:href="#icon-yidong"></use>
+												</svg>
+              				</div>
+              			</div>
+              			<div class="peer peer-greed" >
+              				<h5 class="lh-1 mB-0 logo-text">&nbsp;&nbsp;CMCC</h5>
+              			</div>
+              		</div>
+              	</a>
+              </div>
+              <div class="peer">
+                <div class="mobile-toggle sidebar-toggle">
+                  <a href="" class="td-n">
+                    <i class="ti-arrow-circle-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ### $Sidebar Menu ### -->
+          <ul class="sidebar-menu scrollable pos-r">
+          						<li class="nav-item mT-30 active">
+          							<a class="sidebar-link" href="index.html">
+          								<span class="icon-holder">
+          									<svg class="icon" aria-hidden="true" style="font-size:20px;">
+          										<use xlink:href="#icon-gongneng_chengweirenzhengqiye"></use>
+          									</svg>
+          								</span>
+          								<span class="title">高负荷小区分析预测平台</span>
+          							</a>
+          						</li>
+          						<li class="nav-item dropdown">
+          							<a class="dropdown-toggle" href="javascript:void(0);">
+          								<span class="icon-holder">
+          									<svg class="icon" aria-hidden="true" style="font-size:20px;">
+          										<use xlink:href="#icon-tubiao1-copy"></use>
+          									</svg>
+          								</span>
+          								<span class="title">高负荷小区指标统计</span>
+          								<span class="arrow">
+          									<i class="ti-angle-right"></i>
+          								</span>
+          							</a>
+          							<ul class="dropdown-menu">
+          								<li>
+          									<a class='sidebar-link' href="1-chart-bar.html">本月数据</a>
+          								</li>
+          								<li>
+          									<a class='sidebar-link' href="2-chart-bar.html">预测数据</a>
+          								</li>                
+          							</ul>
+          						</li>       
+          						<li class="nav-item dropdown">
+          							<a class="dropdown-toggle" href="javascript:void(0);">
+          								<span class="icon-holder">
+          									<svg class="icon" aria-hidden="true" style="font-size:20px;">
+          										<use xlink:href="#icon-biaoge"></use>
+          									</svg>
+          								</span>
+          								<span class="title">高负荷小区配置表</span>
+          								<span class="arrow">
+          									<i class="ti-angle-right"></i>
+          								</span>
+          							</a>
+          							<ul class="dropdown-menu">
+          								<li>
+          									<a class='sidebar-link' href="1-table.html">本月数据</a>
+          								</li>
+          								<li>
+          									<a class='sidebar-link' href="2-table.html">预测数据</a>
+          								</li>
+          							</ul>
+          						</li>
+          						<li class="nav-item dropdown">
+          							<a class="dropdown-toggle" href="javascript:void(0);">
+          								<span class="icon-holder">
+          									<svg class="icon" aria-hidden="true" style="font-size:20px;">
+          										<use xlink:href="#icon-gongneng_chanyeziyuan"></use>
+          									</svg>
+          								</span>
+          								<span class="title">高负荷小区数据信息</span>
+          								<span class="arrow">
+          									<i class="ti-angle-right"></i>
+          								</span>
+          							</a>
+          							<ul class="dropdown-menu">
+          								<li>
+          									<a class='sidebar-link' href="3-table.html">本月数据</a>
+          								</li>
+          								<li>
+          									<a class='sidebar-link' href="4-table.html">预测数据</a>
+          								</li>
+          							</ul>
+          						</li>
+          						<li class="nav-item dropdown">
+          							<a class="dropdown-toggle" href="javascript:void(0);">
+          								<span class="icon-holder">
+          									<svg class="icon" aria-hidden="true" style="font-size:20px;">
+          										<use xlink:href="#icon-ditu1"></use>
+          									</svg>
+          								</span>
+          								<span class="title">高负荷小区热力图</span>
+          								<span class="arrow">
+          									<i class="ti-angle-right"></i>
+          								</span>
+          							</a>
+          							<ul class="dropdown-menu">
+          								<li>
+          									<a class='sidebar-link' href="1-map.html">本月数据</a>
+          								</li>
+          								<li>
+          									<a class='sidebar-link' href="2-map.html">预测数据</a>
+          								</li>
+          							</ul>
+          						</li>
+          
+          					</ul>
+          				</div>
+          			</div>
+
+      <!-- #Main ============================ -->
+      <div class="page-container">
+        <!-- ### $Topbar ### -->
+        <div class="header navbar">
+          <div class="header-container">
+            <ul class="nav-left">
+              <li>
+                <a id='sidebar-toggle' class="sidebar-toggle" href="javascript:void(0);">
+                  <i class="ti-menu"></i>
+                </a>
+              </li>             
+              <li class="search-input">
+                <input class="form-control" type="text" placeholder="Search...">
+              </li>
+            </ul>
+            <ul class="nav-right">
+              <li class="dropdown">
+                <a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">
+                  <div class="peer mR-10">
+                    <img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt="">
+                  </div>
+                  <div class="peer">
+                    <span class="fsz-sm c-grey-900">John Doe</span>
+                  </div>
+                </a>
+                <ul class="dropdown-menu fsz-sm">
+                  <li>
+                    <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-settings mR-10"></i>
+                      <span>Setting</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-user mR-10"></i>
+                      <span>Profile</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="email.html" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-email mR-10"></i>
+                      <span>Messages</span>
+                    </a>
+                  </li>
+                  <li role="separator" class="divider"></li>
+                  <li>
+                    <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-power-off mR-10"></i>
+                      <span>Logout</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ### $App Screen Content ### -->
+        <main class='main-content bgc-grey-100'>
+          <div id='mainContent'>
+							<div class="col-12">
+								<div class="card">
+									<div class="card-body">
+										<div id="container"></div>
+											<div id="r-result">
+												<input type="button"  onclick="openHeatmap();" value="显示热力图"/><input type="button"  onclick="closeHeatmap();" value="关闭热力图"/>
+											</div>
+										</div>
+									</div>
+								</div>
+				
+					
+          </div>
+        </main>
+
+        <!-- ### $App Screen Footer ### -->
+        <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
+          <span>上海移动优化中心设备部</span>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="text/javascript">
+    var map = new BMap.Map("container");          // 创建地图实例
+
+    var point = new BMap.Point(116.418261, 39.921984);
+    map.centerAndZoom(point, 15);             // 初始化地图，设置中心点坐标和地图级别
+    map.enableScrollWheelZoom(); // 允许滚轮缩放
+    var points =[
+    {"lng":116.418261,"lat":39.921984,"count":50},
+    {"lng":116.423332,"lat":39.916532,"count":51},
+    {"lng":116.419787,"lat":39.930658,"count":15},
+    {"lng":116.418455,"lat":39.920921,"count":40},
+    {"lng":116.418843,"lat":39.915516,"count":100},
+    {"lng":116.42546,"lat":39.918503,"count":6},
+    {"lng":116.423289,"lat":39.919989,"count":18},
+    {"lng":116.418162,"lat":39.915051,"count":80},
+    {"lng":116.422039,"lat":39.91782,"count":11},
+    {"lng":116.41387,"lat":39.917253,"count":7},
+    {"lng":116.41773,"lat":39.919426,"count":42},
+    {"lng":116.421107,"lat":39.916445,"count":4},
+    {"lng":116.417521,"lat":39.917943,"count":27},
+    {"lng":116.419812,"lat":39.920836,"count":23},
+    {"lng":116.420682,"lat":39.91463,"count":60},
+    {"lng":116.415424,"lat":39.924675,"count":8},
+    {"lng":116.419242,"lat":39.914509,"count":15},
+    {"lng":116.422766,"lat":39.921408,"count":25},
+    {"lng":116.421674,"lat":39.924396,"count":21},
+    {"lng":116.427268,"lat":39.92267,"count":1},
+    {"lng":116.417721,"lat":39.920034,"count":51},
+    {"lng":116.412456,"lat":39.92667,"count":7},
+    {"lng":116.420432,"lat":39.919114,"count":11},
+    {"lng":116.425013,"lat":39.921611,"count":35},
+    {"lng":116.418733,"lat":39.931037,"count":22},
+    {"lng":116.419336,"lat":39.931134,"count":4},
+    {"lng":116.413557,"lat":39.923254,"count":5},
+    {"lng":116.418367,"lat":39.92943,"count":3},
+    {"lng":116.424312,"lat":39.919621,"count":100},
+    {"lng":116.423874,"lat":39.919447,"count":87},
+    {"lng":116.424225,"lat":39.923091,"count":32},
+    {"lng":116.417801,"lat":39.921854,"count":44},
+    {"lng":116.417129,"lat":39.928227,"count":21},
+    {"lng":116.426426,"lat":39.922286,"count":80},
+    {"lng":116.421597,"lat":39.91948,"count":32},
+    {"lng":116.423895,"lat":39.920787,"count":26},
+    {"lng":116.423563,"lat":39.921197,"count":17},
+    {"lng":116.417982,"lat":39.922547,"count":17},
+    {"lng":116.426126,"lat":39.921938,"count":25},
+    {"lng":116.42326,"lat":39.915782,"count":100},
+    {"lng":116.419239,"lat":39.916759,"count":39},
+    {"lng":116.417185,"lat":39.929123,"count":11},
+    {"lng":116.417237,"lat":39.927518,"count":9},
+    {"lng":116.417784,"lat":39.915754,"count":47},
+    {"lng":116.420193,"lat":39.917061,"count":52},
+    {"lng":116.422735,"lat":39.915619,"count":100},
+    {"lng":116.418495,"lat":39.915958,"count":46},
+    {"lng":116.416292,"lat":39.931166,"count":9},
+    {"lng":116.419916,"lat":39.924055,"count":8},
+    {"lng":116.42189,"lat":39.921308,"count":11},
+    {"lng":116.413765,"lat":39.929376,"count":3},
+    {"lng":116.418232,"lat":39.920348,"count":50},
+    {"lng":116.417554,"lat":39.930511,"count":15},
+    {"lng":116.418568,"lat":39.918161,"count":23},
+    {"lng":116.413461,"lat":39.926306,"count":3},
+    {"lng":116.42232,"lat":39.92161,"count":13},
+    {"lng":116.4174,"lat":39.928616,"count":6},
+    {"lng":116.424679,"lat":39.915499,"count":21},
+    {"lng":116.42171,"lat":39.915738,"count":29},
+    {"lng":116.417836,"lat":39.916998,"count":99},
+    {"lng":116.420755,"lat":39.928001,"count":10},
+    {"lng":116.414077,"lat":39.930655,"count":14},
+    {"lng":116.426092,"lat":39.922995,"count":16},
+    {"lng":116.41535,"lat":39.931054,"count":15},
+    {"lng":116.413022,"lat":39.921895,"count":13},
+    {"lng":116.415551,"lat":39.913373,"count":17},
+    {"lng":116.421191,"lat":39.926572,"count":1},
+    {"lng":116.419612,"lat":39.917119,"count":9},
+    {"lng":116.418237,"lat":39.921337,"count":54},
+    {"lng":116.423776,"lat":39.921919,"count":26},
+    {"lng":116.417694,"lat":39.92536,"count":17},
+    {"lng":116.415377,"lat":39.914137,"count":19},
+    {"lng":116.417434,"lat":39.914394,"count":43},
+    {"lng":116.42588,"lat":39.922622,"count":27},
+    {"lng":116.418345,"lat":39.919467,"count":8},
+    {"lng":116.426883,"lat":39.917171,"count":3},
+    {"lng":116.423877,"lat":39.916659,"count":34},
+    {"lng":116.415712,"lat":39.915613,"count":14},
+    {"lng":116.419869,"lat":39.931416,"count":12},
+    {"lng":116.416956,"lat":39.925377,"count":11},
+    {"lng":116.42066,"lat":39.925017,"count":38},
+    {"lng":116.416244,"lat":39.920215,"count":91},
+    {"lng":116.41929,"lat":39.915908,"count":54},
+    {"lng":116.422116,"lat":39.919658,"count":21},
+    {"lng":116.4183,"lat":39.925015,"count":15},
+    {"lng":116.421969,"lat":39.913527,"count":3},
+    {"lng":116.422936,"lat":39.921854,"count":24},
+    {"lng":116.41905,"lat":39.929217,"count":12},
+    {"lng":116.424579,"lat":39.914987,"count":57},
+    {"lng":116.42076,"lat":39.915251,"count":70},
+    {"lng":116.425867,"lat":39.918989,"count":8}];
+   
+    if(!isSupportCanvas()){
+    	alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~')
+    }
+	//详细的参数,可以查看heatmap.js的文档 https://github.com/pa7/heatmap.js/blob/master/README.md
+	//参数说明如下:
+	/* visible 热力图是否显示,默认为true
+     * opacity 热力的透明度,1-100
+     * radius 势力图的每个点的半径大小   
+     * gradient  {JSON} 热力图的渐变区间 . gradient如下所示
+     *	{
+			.2:'rgb(0, 255, 255)',
+			.5:'rgb(0, 110, 255)',
+			.8:'rgb(100, 0, 255)'
+		}
+		其中 key 表示插值的位置, 0~1. 
+		    value 为颜色值. 
+     */
+	heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
+	map.addOverlay(heatmapOverlay);
+	heatmapOverlay.setDataSet({data:points,max:100});
+	//是否显示热力图
+    function openHeatmap(){
+        heatmapOverlay.show();
+    }
+	function closeHeatmap(){
+        heatmapOverlay.hide();
+    }
+	openHeatmap();
+    function setGradient(){
+     	/*格式如下所示:
+		{
+	  		0:'rgb(102, 255, 0)',
+	 	 	.5:'rgb(255, 170, 0)',
+		  	1:'rgb(255, 0, 0)'
+		}*/
+     	var gradient = {};
+     	var colors = document.querySelectorAll("input[type='color']");
+     	colors = [].slice.call(colors,0);
+     	colors.forEach(function(ele){
+			gradient[ele.getAttribute("data-key")] = ele.value; 
+     	});
+        heatmapOverlay.setOptions({"gradient":gradient});
+    }
+	//判断浏览区是否支持canvas
+    function isSupportCanvas(){
+        var elem = document.createElement('canvas');
+        return !!(elem.getContext && elem.getContext('2d'));
+    }
+</script>

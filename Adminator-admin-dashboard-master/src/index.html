@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4zFi6GTqPDVOXv0x8yma9lIoQunrV4rs"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
+		<style type="text/css">
+			html{height:100%}
+			body{height:100%;margin:0px;padding:0px;font-family:"微软雅黑";}
+			#container{height:500px;width:100%;}
+			#r-result{width:100%;}
+    </style>
+    <title>Dashboard</title>
+		<script src="https://cdn.bootcss.com/echarts/4.2.0-rc.1/echarts.min.js"></script>
+		<script src="//at.alicdn.com/t/font_885063_hp6izb4xdp.js"></script>
+		<style type="text/css">
+			.icon {
+			   width: 1em; height: 1em;
+			   vertical-align: -0.15em;
+			   fill: currentColor;
+			   overflow: hidden;
+			}
+		</style>
+    <style>
+      #loader {
+        transition: all 0.3s ease-in-out;
+        opacity: 1;
+        visibility: visible;
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        background: #fff;
+        z-index: 90000;
+      }
+
+      #loader.fadeOut {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+        background-color: #333;
+        border-radius: 100%;
+        -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+        animation: sk-scaleout 1.0s infinite ease-in-out;
+      }
+
+      @-webkit-keyframes sk-scaleout {
+        0% { -webkit-transform: scale(0) }
+        100% {
+          -webkit-transform: scale(1.0);
+          opacity: 0;
+        }
+      }
+
+      @keyframes sk-scaleout {
+        0% {
+          -webkit-transform: scale(0);
+          transform: scale(0);
+        } 100% {
+          -webkit-transform: scale(1.0);
+          transform: scale(1.0);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="app">
+    <!-- @TOC -->
+    <!-- =================================================== -->
+    <!--
+      + @Page Loader
+      + @App Content
+          - #Left Sidebar
+              > $Sidebar Header
+              > $Sidebar Menu
+
+          - #Main
+              > $Topbar
+              > $App Screen Content
+    -->
+
+    <!-- @Page Loader -->
+    <!-- =================================================== -->
+    <div id='loader'>
+      <div class="spinner"></div>
+    </div>
+
+    <script>
+      window.addEventListener('load', () => {
+        const loader = document.getElementById('loader');
+        setTimeout(() => {
+          loader.classList.add('fadeOut');
+        }, 300);
+      });
+    </script>
+
+    <!-- @App Content -->
+    <!-- =================================================== -->
+    <div>
+      <!-- #Left Sidebar ==================== -->
+      <div class="sidebar">
+        <div class="sidebar-inner">
+          <!-- ### $Sidebar Header ### -->
+          <div class="sidebar-logo">
+            <div class="peers ai-c fxw-nw">
+              <div class="peer peer-greed">
+              	<a class="sidebar-link td-n" href="index.html">
+              		<div class="peers ai-c fxw-nw">
+              			<div class="peer">
+              				<div class="logo" style="text-align:center;padding-top: 15px;">
+              					<svg class="icon" aria-hidden="true" style="font-size:40px;">
+													<use xlink:href="#icon-yidong"></use>
+												</svg>
+              				</div>
+              			</div>
+              			<div class="peer peer-greed" >
+              				<h5 class="lh-1 mB-0 logo-text">&nbsp;&nbsp;CMCC</h5>
+              			</div>
+              		</div>
+              	</a>
+              </div>
+              <div class="peer">
+                <div class="mobile-toggle sidebar-toggle">
+                  <a href="" class="td-n">
+                    <i class="ti-arrow-circle-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ### $Sidebar Menu ### -->
+          <ul class="sidebar-menu scrollable pos-r">
+                      <li class="nav-item mT-30 active">
+                        <a class="sidebar-link" href="index.html">
+                          <span class="icon-holder">
+                            <svg class="icon" aria-hidden="true" style="font-size:20px;">
+                            	<use xlink:href="#icon-gongneng_chengweirenzhengqiye"></use>
+                            </svg>
+                          </span>
+                          <span class="title">高负荷小区分析预测平台</span>
+                        </a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="dropdown-toggle" href="javascript:void(0);">
+                          <span class="icon-holder">
+                            <svg class="icon" aria-hidden="true" style="font-size:20px;">
+                            	<use xlink:href="#icon-tubiao1-copy"></use>
+                            </svg>
+                          </span>
+                          <span class="title">高负荷小区指标统计</span>
+                          <span class="arrow">
+                            <i class="ti-angle-right"></i>
+                          </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                        	<li>
+                            <a class='sidebar-link' href="1-chart-bar.html">本月数据</a>
+                          </li>
+                          <li>
+                            <a class='sidebar-link' href="2-chart-bar.html">预测数据</a>
+                          </li>                
+                        </ul>
+                      </li>       
+                      <li class="nav-item dropdown">
+                        <a class="dropdown-toggle" href="javascript:void(0);">
+                          <span class="icon-holder">
+                            <svg class="icon" aria-hidden="true" style="font-size:20px;">
+                            	<use xlink:href="#icon-biaoge"></use>
+                            </svg>
+                          </span>
+                          <span class="title">高负荷小区配置表</span>
+                          <span class="arrow">
+                            <i class="ti-angle-right"></i>
+                          </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                        	<li>
+                            <a class='sidebar-link' href="1-table.html">本月数据</a>
+                          </li>
+                          <li>
+                            <a class='sidebar-link' href="2-table.html">预测数据</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="dropdown-toggle" href="javascript:void(0);">
+                          <span class="icon-holder">
+                            <svg class="icon" aria-hidden="true" style="font-size:20px;">
+                            	<use xlink:href="#icon-gongneng_chanyeziyuan"></use>
+                            </svg>
+                          </span>
+                          <span class="title">高负荷小区数据信息</span>
+                          <span class="arrow">
+                            <i class="ti-angle-right"></i>
+                          </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                        	<li>
+                            <a class='sidebar-link' href="3-table.html">本月数据</a>
+                          </li>
+                          <li>
+                            <a class='sidebar-link' href="4-table.html">预测数据</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="dropdown-toggle" href="javascript:void(0);">
+                          <span class="icon-holder">
+                            <svg class="icon" aria-hidden="true" style="font-size:20px;">
+                            	<use xlink:href="#icon-ditu1"></use>
+                            </svg>
+                          </span>
+                          <span class="title">高负荷小区热力图</span>
+                          <span class="arrow">
+                            <i class="ti-angle-right"></i>
+                          </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                        	<li>
+                            <a class='sidebar-link' href="1-map.html">本月数据</a>
+                          </li>
+                          <li>
+                            <a class='sidebar-link' href="2-map.html">预测数据</a>
+                          </li>
+                        </ul>
+                      </li>
+          
+                    </ul>
+                  </div>
+                </div>
+
+      <!-- #Main ============================ -->
+      <div class="page-container">
+        <!-- ### $Topbar ### -->
+        <div class="header navbar">
+          <div class="header-container">
+            <ul class="nav-left">
+              <li>
+                <a id='sidebar-toggle' class="sidebar-toggle" href="javascript:void(0);">
+                  <i class="ti-menu"></i>
+                </a>
+              </li>             
+              <li class="search-input">
+                <input class="form-control" type="text" placeholder="Search...">
+              </li>
+            </ul>
+            <ul class="nav-right">
+              <li class="dropdown">
+                <a href="" class="dropdown-toggle no-after peers fxw-nw ai-c lh-1" data-toggle="dropdown">
+                  <div class="peer mR-10">
+                    <img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/10.jpg" alt="">
+                  </div>
+                  <div class="peer">
+                    <span class="fsz-sm c-grey-900">John Doe</span>
+                  </div>
+                </a>
+                <ul class="dropdown-menu fsz-sm">
+                  <li>
+                    <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-settings mR-10"></i>
+                      <span>Setting</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-user mR-10"></i>
+                      <span>Profile</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="email.html" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-email mR-10"></i>
+                      <span>Messages</span>
+                    </a>
+                  </li>
+                  <li role="separator" class="divider"></li>
+                  <li>
+                    <a href="" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                      <i class="ti-power-off mR-10"></i>
+                      <span>Logout</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ### $App Screen Content ### -->
+        <main class='main-content bgc-grey-100'>
+          <div id='mainContent'>
+						<div class="row gap-20 masonry pos-r">
+						              <div class="masonry-sizer col-md-6"></div>
+						              <div class="masonry-item  w-100">
+						                <div class="row gap-20">
+						                  <!-- #Toatl Visits ==================== -->
+						                  <div class='col-md-4'>
+						                    <div class="layers bd bgc-white p-20">
+						                      <div class="layer w-100 mB-10">
+						                        <h6 class="lh-1">同比大包新增小区</h6>
+																		<div class="peer">
+																			<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span>
+																		</div>
+						                      </div>
+																			
+						                    </div>
+						                  </div>
+															
+																
+						                  <!-- #Total Page Views ==================== -->
+						                  <div class='col-md-4'>
+						                    <div class="layers bd bgc-white p-20">
+						                      <div class="layer w-100 mB-10">
+						                        <h6 class="lh-1">同比中包新增小区</h6>
+																		<div class="peer">
+																			<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">-7%</span>
+																		</div>
+						                      </div>                      
+						                    </div>
+						                  </div>
+															
+															
+						                  <!-- #Unique Visitors ==================== -->
+						                  <div class='col-md-4'>
+						                    <div class="layers bd bgc-white p-20">
+						                      <div class="layer w-100 mB-10">
+						                        <h6 class="lh-1">同比小包新增小区</h6>
+																		<div class="peer">
+																			<span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">+12%</span>
+																		</div>
+						                      </div>                      
+						                    </div>
+						                  </div>
+															
+																														
+																
+															<!-- #Total Page Views ==================== -->
+																										
+															
+															<div class='col-md-6' >
+																<div class="layers bd bgc-white p-20">
+																				<div id="main" style="width:100%;height:400px;"></div>
+																																									</div>                      
+																</div>
+																
+																
+																
+																<div class='col-md-6' >
+																	<div class="layers bd bgc-white p-20" >
+																		<div id="main2" style="width: 100%;height:400px;"></div>
+																							
+																			
+																	</div>                      
+																</div>	
+																
+																
+
+						                </div>
+						              </div>
+        </main>
+
+<script type="text/javascript">
+	
+		// 基于准备好的dom，初始化echarts实例
+		var myChart = echarts.init(document.getElementById('main'));
+		// 指定图表的配置项和数据
+		var option = {
+				title : {
+						text: '高负荷小区分布',
+						subtext: '本月',
+						x:'center'
+				},
+				tooltip : {
+						trigger: 'item',
+						formatter: "{a} <br/>{b} : {c} ({d}%)"
+				},
+				legend: {
+						orient: 'vertical',
+						left: 'right',
+						data: ['东部','西部','南部','北部','中部']
+				},
+				series : [
+						{
+								name: '小区数量',
+								type: 'pie',
+								radius : '70%',
+								center: ['50%', '60%'],
+								data:[
+										{value:335, name:'东部'},
+										{value:310, name:'西部'},
+										{value:234, name:'南部'},
+										{value:135, name:'北部'},
+										{value:600, name:'中部'}
+								],
+								itemStyle: {
+										emphasis: {
+												shadowBlur: 10,
+												shadowOffsetX: 0,
+												shadowColor: 'rgba(0, 0, 0, 0.5)'
+										}
+								}
+						}
+				]
+		};
+		
+		// 基于准备好的dom，初始化echarts实例
+		var myChart2 = echarts.init(document.getElementById('main2'));
+		// 指定图表的配置项和数据
+		var option2 = {
+				title : {
+						text: '高负荷小区分布',
+						subtext: '上月',
+						x:'center'
+				},
+				tooltip : {
+						trigger: 'item',
+						formatter: "{a} <br/>{b} : {c} ({d}%)"
+				},
+				legend: {
+						orient: 'vertical',
+						left: 'right',
+						data: ['东部','西部','南部','北部','中部']
+				},
+				series : [
+						{
+								name: '小区数量',
+								type: 'pie',
+								radius : '70%',
+								center: ['50%', '60%'],
+								data:[
+										{value:135, name:'东部'},
+										{value:210, name:'西部'},
+										{value:134, name:'南部'},
+										{value:435, name:'北部'},
+										{value:200, name:'中部'}
+								],
+								itemStyle: {
+										emphasis: {
+												shadowBlur: 10,
+												shadowOffsetX: 0,
+												shadowColor: 'rgba(0, 0, 0, 0.5)'
+										}
+								}
+						}
+				]
+		};
+		myChart.setOption(option);	
+		myChart2.setOption(option2);		
+		setTimeout(function (){
+					window.onresize = function () {
+						myChart.resize();
+						myChart2.resize();
+					}
+			})														
+</script>
+
+        <!-- ### $App Screen Footer ### -->
+        <footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600">
+          <span>上海移动优化中心设备部</span>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
